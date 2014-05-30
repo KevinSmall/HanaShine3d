@@ -1,0 +1,5 @@
+terrain MUST be at origin (or waypoints will screw up)
+
+for releases
+- remove default password
+- to remove playerprefs, search under regedit HKCU -> Default Company -> Epm3d (delete folder)
