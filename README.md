@@ -11,10 +11,10 @@ To help orientate yourself in the project:
 SCENES
 ------
 The main scenes are in the _Scenes folder:
-  gamestart - GUI screen for initial login
-  level01 - ignore this scene, it was for testing
-  level02 - ignore this scene, it was for testing
-  terrainScene - the main game scene. it should be runnable directly, without going via the gamestart scene, and defaults to playing offline. This instant execution is handled by the game object in the scene called "_dummy to allow instant scene Execution", which executes the "GameLogin" script with the "run immediately" flag set.
+* gamestart - GUI screen for initial login
+* level01 - ignore this scene, it was for testing
+* level02 - ignore this scene, it was for testing
+* terrainScene - the main game scene. it should be runnable directly, without going via the gamestart scene, and defaults to playing offline. This instant execution is handled by the game object in the scene called "_dummy to allow instant scene Execution", which executes the "GameLogin" script with the "run immediately" flag set.
 
 SCRIPTS
 -------
