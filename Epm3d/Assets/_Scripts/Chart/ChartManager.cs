@@ -165,10 +165,10 @@ public class ChartManager : MonoBehaviour
       if (isSfxNeededDuringBarChanges)
       {
          // audio for rumbling bar movement
-         gameObject.audio.clip = BarMoveRumble;
-         gameObject.audio.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
-         gameObject.audio.volume = 1f;
-         gameObject.audio.Play();
+         gameObject.GetComponent<AudioSource>().clip = BarMoveRumble;
+         gameObject.GetComponent<AudioSource>().pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+         gameObject.GetComponent<AudioSource>().volume = 1f;
+         gameObject.GetComponent<AudioSource>().Play();
       }
    }
 

@@ -61,10 +61,10 @@ public class PoSfx : MonoBehaviour
       _pom.OnThisPORejected += OnThisPORejected;
 
       // creation noise
-      audio.clip = AudioAppear;
-      audio.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
-      audio.volume = 0.1f;
-      audio.Play();
+      GetComponent<AudioSource>().clip = AudioAppear;
+      GetComponent<AudioSource>().pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+      GetComponent<AudioSource>().volume = 0.1f;
+      GetComponent<AudioSource>().Play();
 
       // creation particles
       _psAppear.Play(true);
@@ -75,10 +75,10 @@ public class PoSfx : MonoBehaviour
       //print("PoSfx for " + _pom.PoBusinessDataWithItems.PurchaseOrderId + " has received event OnThisPOApproved");
 
       // approval noise
-      audio.clip = AudioApproved;
-      audio.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
-      audio.volume = 1f;
-      audio.Play();
+      GetComponent<AudioSource>().clip = AudioApproved;
+      GetComponent<AudioSource>().pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+      GetComponent<AudioSource>().volume = 1f;
+      GetComponent<AudioSource>().Play();
 
       // po steam
       _psSteam.Play(true);
@@ -102,10 +102,10 @@ public class PoSfx : MonoBehaviour
       //print("PoSfx for " + _pom.PoBusinessDataWithItems.PurchaseOrderId + " has received event OnThisPORejected");
 
       // explode noise
-      audio.clip = AudioExplodes[UnityEngine.Random.Range(0, AudioExplodes.Count)];
-      audio.pitch = UnityEngine.Random.Range(0.5f, 1.5f);
-      audio.volume = 1f;
-      audio.Play();
+      GetComponent<AudioSource>().clip = AudioExplodes[UnityEngine.Random.Range(0, AudioExplodes.Count)];
+      GetComponent<AudioSource>().pitch = UnityEngine.Random.Range(0.5f, 1.5f);
+      GetComponent<AudioSource>().volume = 1f;
+      GetComponent<AudioSource>().Play();
 
       // explode particles
       _psExplode.Play(true);

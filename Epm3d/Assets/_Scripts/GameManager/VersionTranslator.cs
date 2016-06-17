@@ -7,14 +7,22 @@ namespace Epm3d
       /// TitleCase fields
       /// </summary>
       v1_00_60,
+
       /// <summary>
       /// UPPERCASE fields
       /// </summary>
       v1_00_70,
+
       /// <summary>
       /// TitleCase fields for epmNext
       /// </summary>
       v1_00_72,
+
+      /// <summary>
+      /// UPPERCASE fields again
+      /// </summary>
+      v1_00_80,
+
       Unknown
    }
 
@@ -30,6 +38,7 @@ namespace Epm3d
       private const string _epmPackagePath_60 = @"/sap/hana/democontent/epm/services/";
       private const string _epmPackagePath_70 = @"/sap/hana/democontent/epm/services/";
       private const string _epmPackagePath_72 = @"/sap/hana/democontent/epmNext/services/";
+      private const string _epmPackagePath_80 = @"/sap/hana/democontent/epm/services/";
 
       //@"poWorklistQuery.xsjs?cmd=getTotalOrders&groupby=PartnerCity&currency=USD&filterterms=";
       private string _urlEnd_EpmChart = @"poWorklistQuery.xsjs?cmd=getTotalOrders&groupby={0}&currency={1}&filterterms=";
@@ -43,8 +52,11 @@ namespace Epm3d
       private string _urlEnd_EpmGetMassPO = @"poWorklist.xsodata/PO_WORKLIST?$skip=0&$top={0}&$orderby={1},{2}%20asc&$select={1},{2}&$inlinecount=allpages&$filter={3}%20ne%20%27Closed%27%20and%20{3}%20ne%20%27Cancelled%27%20and%20{4}%20eq%20%27Initial%27%20and%20{5}%20ne%20%27Delivered%27%20and%20{6}%20ne%20%27Approved%27%20and%20{6}%20ne%20%27Rejected%27&$format=json";
       
       private string _urlEpm_RejectOnePO = @"poWorklistUpdate.xsjs?cmd=approval&{0}={1}&Action=Reject";
-      
-      private string _urlEpmBase; // root of service eg "http://<server>:8000/sap/hana/democontent/epm/services/"
+
+      /// <summary>
+      /// Root url of SHINE services eg "http://<server>:80<instance>/sap/hana/democontent/epm/services/"
+      /// </summary>
+      private string _urlEpmBase; 
 
       public VersionTranslator(HanaVersion hanaVersion, string host, string instance)
       {
@@ -61,6 +73,10 @@ namespace Epm3d
 
             case HanaVersion.v1_00_72:
                _urlEpmBase = @"http://" + host + ":80" + instance + _epmPackagePath_72;
+               break;
+
+            case HanaVersion.v1_00_80:
+               _urlEpmBase = @"http://" + host + ":80" + instance + _epmPackagePath_80;
                break;
 
             default:
@@ -166,7 +182,15 @@ namespace Epm3d
                url = @"http://" + host + ":80" + instance + _epmPackagePath_72 + @"poWorklistQuery.xsjs?cmd=getTotalOrders&groupby=PartnerCity&currency=USD&filterterms=";
                
                break;
-               
+
+            case HanaVersion.v1_00_80:
+               // 80
+               // URL PO chart data (internal)
+               // http://54.178.200.169:8000/sap/hana/democontent/epm/services/poWorklistQuery.xsjs?cmd=getTotalOrders&groupby=PARTNERCITY&currency=USD&filterterms= [note fields back to UPPERCASE]
+               url = @"http://" + host + ":80" + instance + _epmPackagePath_80 + @"poWorklistQuery.xsjs?cmd=getTotalOrders&groupby=PARTNERCITY&currency=USD&filterterms=";
+
+               break;
+
             default:
                break;
          }

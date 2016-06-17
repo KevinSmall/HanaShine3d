@@ -31,7 +31,7 @@ public class SwitchFloorplate : MonoBehaviour
    {
       _origYposition = gameObject.transform.localPosition.y;
       _currentYposition = _origYposition;
-      gameObject.renderer.material.mainTexture = SwitchFloorplateTexture;
+      gameObject.GetComponent<Renderer>().material.mainTexture = SwitchFloorplateTexture;
       
    }
 
@@ -39,7 +39,7 @@ public class SwitchFloorplate : MonoBehaviour
    void Start()
    {
       _isStandingOnSwitch = false;
-      _origTint = gameObject.renderer.material.color;
+      _origTint = gameObject.GetComponent<Renderer>().material.color;
       
    }
    
@@ -76,16 +76,16 @@ public class SwitchFloorplate : MonoBehaviour
          OnSwitchSteppedOn(this, null);
 
          // step on noise
-         audio.clip = AudioClipStepOn;
-         audio.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
-         audio.volume = 1f;
-         audio.Play();
+         GetComponent<AudioSource>().clip = AudioClipStepOn;
+         GetComponent<AudioSource>().pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+         GetComponent<AudioSource>().volume = 1f;
+         GetComponent<AudioSource>().Play();
 
          // button moves down
          _targetYposition = -0.10f;
 
          // darken
-         gameObject.renderer.material.color = TintWhenDown;
+         gameObject.GetComponent<Renderer>().material.color = TintWhenDown;
       }
    }
 
@@ -100,16 +100,16 @@ public class SwitchFloorplate : MonoBehaviour
          OnSwitchSteppedOff(this, null);
       
          // step off noise
-         audio.clip = AudioClipStepOff;
-         audio.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
-         audio.volume = 1f;
-         audio.Play();
+         GetComponent<AudioSource>().clip = AudioClipStepOff;
+         GetComponent<AudioSource>().pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+         GetComponent<AudioSource>().volume = 1f;
+         GetComponent<AudioSource>().Play();
 
          // button mowes up
          _targetYposition = _origYposition;
       
          // back to orig tint
-         gameObject.renderer.material.color = _origTint;
+         gameObject.GetComponent<Renderer>().material.color = _origTint;
       }
    }
 

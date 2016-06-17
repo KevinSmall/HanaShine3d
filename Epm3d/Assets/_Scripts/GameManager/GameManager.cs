@@ -238,7 +238,7 @@ namespace Epm3d
                   else
                   {
                      // Partner City
-                     _epmDataChart = @"{""entries"":[{""name"":""Rom"",""value"":9522913.12},{""name"":""Sapporo"",""value"":8486375.52},{""name"":""Mnchen"",""value"":1888444.32},{""name"":""Tokyo"",""value"":1776298.72},{""name"":""Madrid"",""value"":1200005.52}]}";
+                     _epmDataChart = @"{""entries"":[{""name"":""Rom"",""value"":9522913.12},{""name"":""Sapporo"",""value"":8486375.52},{""name"":""MÂnchen"",""value"":1888444.32},{""name"":""Tokyo"",""value"":1776298.72},{""name"":""Madrid"",""value"":1200005.52}]}";
                      cea = new ChartEventArgs(){ChartType = EpmDataTypeChart.PartnerCity};
                   }
                   OnChartDataChanged(null, cea);
@@ -329,13 +329,15 @@ namespace Epm3d
          try
          {
             WWW www = null;
+            System.Collections.Generic.Dictionary<string, string> d = null;
+
             if (wwwDataType == WwwDataType.ConnNetCheck || wwwDataType == WwwDataType.ConnServerUp)
             {
                //---------------------------------------------------------
                // Without login
                //---------------------------------------------------------
                print("WWW ------------ calling now: " + url);
-               www = new WWW(url, null, null); 
+               www = new WWW(url, null, d); 
             }
             else
             {
@@ -343,14 +345,22 @@ namespace Epm3d
                // With login 
                //---------------------------------------------------------
                // prep headers
-               Hashtable headers = new Hashtable();
-               headers["Accept-Language"] = "en-US,en;q=0.8"; // prevents a 500 error saying "Multiple resources found. Inconsistency between data model and service description found"
+               //Hashtable headers = new Hashtable();
+               //headers["Accept-Language"] = "en-US,en;q=0.8"; // prevents a 500 error saying "Multiple resources found. Inconsistency between data model and service description found"
+               //string userAndPasswordCombo = _username + ":" + _password;
+               //byte[] bytesToEncode = Encoding.UTF8.GetBytes(userAndPasswordCombo);
+               //string encodedText = Convert.ToBase64String(bytesToEncode);
+               //headers["Authorization"] = "Basic " + encodedText;
+               //print("WWW ------------ calling now: " + url);
+               //www = new WWW(url, null, headers);
+               d = new System.Collections.Generic.Dictionary<string, string>();
+               d.Add("Accept-Language", "en-US,en;q=0.8"); // prevents a 500 error saying "Multiple resources found. Inconsistency between data model and service description found"
                string userAndPasswordCombo = _username + ":" + _password;
                byte[] bytesToEncode = Encoding.UTF8.GetBytes(userAndPasswordCombo);
                string encodedText = Convert.ToBase64String(bytesToEncode);
-               headers["Authorization"] = "Basic " + encodedText;
+               d.Add("Authorization", "Basic " + encodedText);
                print("WWW ------------ calling now: " + url);
-               www = new WWW(url, null, headers);            
+               www = new WWW(url, null, d);
             }
             StartCoroutine(WaitForRequest(www, wwwDataType));
          }
@@ -576,7 +586,7 @@ namespace Epm3d
          // Load scene (an actual scene, not a login screen)
          if (!string.IsNullOrEmpty(sceneName))
          {
-            Screen.showCursor = false;
+            Cursor.visible = false;
             Application.LoadLevel(sceneName);
          }
       }
