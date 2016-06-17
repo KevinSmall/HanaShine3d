@@ -327,10 +327,10 @@ public class PoFactory : MonoBehaviour
          print("WARNING could not find PO texture called " + powi.PoItems[0].ProductId);
          tex = PoTexturesMaster.HT_1000; // just default to something
       }
-      g.renderer.material.mainTexture = tex;
+      g.GetComponent<Renderer>().material.mainTexture = tex;
       // Set the tint
       Color tint = PoProdCategoriesMaster.GetTintForProductCategory(powi.PoItems[0].ProductCategory);
-      g.renderer.material.color = tint;
+      g.GetComponent<Renderer>().material.color = tint;
 
       //-------------------------------------------------------------------------
       // PO behaviour

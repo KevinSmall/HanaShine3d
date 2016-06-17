@@ -22,7 +22,7 @@ public class Highlight_IsHighlightable : MonoBehaviour
    {
       gameObject.tag = @"Highlightable";
 
-      _shaderNotHighlighted = gameObject.renderer.material.shader; //Shader.Find(@"Diffuse");
+      _shaderNotHighlighted = gameObject.GetComponent<Renderer>().material.shader; //Shader.Find(@"Diffuse");
       _shaderHighlighted = Shader.Find(@"Self-Illumin/BumpedSpecular");
    }
 
@@ -30,10 +30,10 @@ public class Highlight_IsHighlightable : MonoBehaviour
    {
       if (IsHighlighted)
       {
-         if (renderer.material.shader != _shaderHighlighted)
+         if (GetComponent<Renderer>().material.shader != _shaderHighlighted)
          {
             // We have become highlighted
-            renderer.material.shader = _shaderHighlighted;
+            GetComponent<Renderer>().material.shader = _shaderHighlighted;
             OnHighlighted(this.gameObject, EventArgs.Empty);
             //Debug.Log("...became Highlighted");
          }         
@@ -42,10 +42,10 @@ public class Highlight_IsHighlightable : MonoBehaviour
       {
          //added a check to try and optimize the code. I think an if comparison is faster then
          // setting a shader to an object.
-         if (renderer.material.shader != _shaderNotHighlighted)
+         if (GetComponent<Renderer>().material.shader != _shaderNotHighlighted)
          {
             // We have become un-highlighted
-            renderer.material.shader = _shaderNotHighlighted;  
+            GetComponent<Renderer>().material.shader = _shaderNotHighlighted;  
             OnUnhighlighted(this.gameObject, EventArgs.Empty);
             //Debug.Log("...became Not Highlighted");
          }  

@@ -124,7 +124,7 @@ public class PoMover : MonoBehaviour
       // Only execute once per hop, and only when stationary
       //------------------------------------------------------------------------------------------
       _hopTimer -= Time.fixedDeltaTime;
-      if (_hopTimer < 0 && rigidbody.velocity.magnitude < 0.1f)
+      if (_hopTimer < 0 && GetComponent<Rigidbody>().velocity.magnitude < 0.1f)
       {
          switch (_movementState)
          {
@@ -133,7 +133,7 @@ public class PoMover : MonoBehaviour
                // next state
                // First hop is bounce and rotate to face destination when roughly at top of bounce
                // Give a little bounce here, then other code does the rotation (see "Execute every tick" section above)
-               rigidbody.AddForce(new Vector3(0f, 190f, 0f));
+               GetComponent<Rigidbody>().AddForce(new Vector3(0f, 190f, 0f));
                _movementState = MovementState.FirstHop;
               
                MakeHopNoise();
@@ -163,7 +163,7 @@ public class PoMover : MonoBehaviour
                desiredTerrainDir.Normalize();
                // force needs to kick up a bit
                Vector3 actualForceDir = new Vector3(desiredTerrainDir.x, 2f, desiredTerrainDir.z);
-               rigidbody.AddForce(actualForceDir * mag);
+               GetComponent<Rigidbody>().AddForce(actualForceDir * mag);
 
                MakeHopNoise();
 
@@ -179,9 +179,9 @@ public class PoMover : MonoBehaviour
    private void MakeHopNoise()
    {
       // hop noise
-      audio.clip = AudioHopping[UnityEngine.Random.Range(0, AudioHopping.Count)];
-      audio.pitch = UnityEngine.Random.Range(0.9f, 1.1f);
-      audio.volume = 0.55f;      
-      audio.Play();
+      GetComponent<AudioSource>().clip = AudioHopping[UnityEngine.Random.Range(0, AudioHopping.Count)];
+      GetComponent<AudioSource>().pitch = UnityEngine.Random.Range(0.9f, 1.1f);
+      GetComponent<AudioSource>().volume = 0.55f;      
+      GetComponent<AudioSource>().Play();
    }
 }

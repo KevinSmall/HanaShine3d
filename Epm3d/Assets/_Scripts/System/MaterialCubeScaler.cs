@@ -20,8 +20,8 @@ public class MaterialCubeScaler : MonoBehaviour
 
       //print(scaleX.ToString() + ", " + scaleY.ToString());
       //renderer.material.mainTextureScale = newScale;  // <-- this is same as line below
-      renderer.material.SetTextureScale("_MainTex", newScale);
-      renderer.material.SetTextureScale("_BumpMap", newScale);
+      GetComponent<Renderer>().material.SetTextureScale("_MainTex", newScale);
+      GetComponent<Renderer>().material.SetTextureScale("_BumpMap", newScale);
 
       // renderer.material.GetTexture(_MainTex).
       // shader properties

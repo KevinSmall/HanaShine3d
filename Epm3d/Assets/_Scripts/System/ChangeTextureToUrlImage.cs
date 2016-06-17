@@ -9,7 +9,7 @@ public class ChangeTextureToUrlImage : MonoBehaviour
    {
       WWW www = new WWW(url);
       yield return www;
-      renderer.material.mainTexture = www.texture;
+      GetComponent<Renderer>().material.mainTexture = www.texture;
    }
 }
 

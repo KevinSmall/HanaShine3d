@@ -9,10 +9,10 @@ public class RocketMovement : MonoBehaviour
    void Start()
    {
       // creation noise
-      audio.clip = RocketNoise;
-      audio.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
-      audio.volume = 1f;
-      audio.Play();
+      GetComponent<AudioSource>().clip = RocketNoise;
+      GetComponent<AudioSource>().pitch = UnityEngine.Random.Range(0.8f, 1.2f);
+      GetComponent<AudioSource>().volume = 1f;
+      GetComponent<AudioSource>().Play();
       //print("playing rocket");
    }
    
@@ -33,7 +33,7 @@ public class RocketMovement : MonoBehaviour
       //rigidbody.AddForce and rigidbody.AddTorque,
       float mag = 200f; //Random.Range(0f, 40f);
       Vector3 dir = Vector3.up; //Random.onUnitSphere;
-      this.gameObject.transform.parent.rigidbody.AddForce(dir * mag);
+      this.gameObject.transform.parent.GetComponent<Rigidbody>().AddForce(dir * mag);
 
    }
 }

@@ -132,7 +132,7 @@ public class PoManager : MonoBehaviour
    private void AttachRocket()
    {
       // allow po to rocket through any obstacles
-      collider.enabled = false;
+      GetComponent<Collider>().enabled = false;
 
       // Attach rocket gameobject to this game object
       // Visuals and audio of the rocket are done in this new gameobject RocketAttachedWhenApproved
@@ -153,8 +153,8 @@ public class PoManager : MonoBehaviour
          OnThisPORejected(null, null);
 
          // Hide self
-         renderer.enabled = false;
-         collider.enabled = false;
+         GetComponent<Renderer>().enabled = false;
+         GetComponent<Collider>().enabled = false;
 
          // Self destruct
          Destroy(this.gameObject, 5f); // delay needed to allow audio and explosion particles to finish
@@ -246,7 +246,7 @@ public class PoManager : MonoBehaviour
                Vector3 diralt = new Vector3(circ.x, 0.05f, circ.y);
                //rigidbody.AddForce(dir * mag);
                //rigidbody.AddRelativeTorque(diralt * mag);
-               rigidbody.AddTorque(diralt * mag);
+               GetComponent<Rigidbody>().AddTorque(diralt * mag);
             }
             break;
             

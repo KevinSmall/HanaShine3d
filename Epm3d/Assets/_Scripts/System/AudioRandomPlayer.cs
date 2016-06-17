@@ -30,10 +30,10 @@ public class AudioRandomPlayer : MonoBehaviour
       {
          if (UnityEngine.Random.Range(0f, 1f) > (1f - ProbabilityOfPlaying))
          {
-            audio.clip = AudioClipList[UnityEngine.Random.Range(0, AudioClipList.Count)];
-            audio.pitch = UnityEngine.Random.Range(1f - PitchVariance, 1f + PitchVariance);
-            audio.volume = UnityEngine.Random.Range(VolumeBase - VolumeVariance, VolumeBase + VolumeVariance);
-            audio.Play();
+            GetComponent<AudioSource>().clip = AudioClipList[UnityEngine.Random.Range(0, AudioClipList.Count)];
+            GetComponent<AudioSource>().pitch = UnityEngine.Random.Range(1f - PitchVariance, 1f + PitchVariance);
+            GetComponent<AudioSource>().volume = UnityEngine.Random.Range(VolumeBase - VolumeVariance, VolumeBase + VolumeVariance);
+            GetComponent<AudioSource>().Play();
          }
 
          _timeSinceLastCheck = 0f;
