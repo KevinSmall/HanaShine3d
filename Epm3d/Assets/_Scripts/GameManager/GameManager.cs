@@ -353,7 +353,7 @@ namespace Epm3d
                //headers["Authorization"] = "Basic " + encodedText;
                //print("WWW ------------ calling now: " + url);
                //www = new WWW(url, null, headers);
-
+               d = new System.Collections.Generic.Dictionary<string, string>();
                d.Add("Accept-Language", "en-US,en;q=0.8"); // prevents a 500 error saying "Multiple resources found. Inconsistency between data model and service description found"
                string userAndPasswordCombo = _username + ":" + _password;
                byte[] bytesToEncode = Encoding.UTF8.GetBytes(userAndPasswordCombo);

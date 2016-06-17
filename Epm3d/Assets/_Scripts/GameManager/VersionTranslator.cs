@@ -52,8 +52,11 @@ namespace Epm3d
       private string _urlEnd_EpmGetMassPO = @"poWorklist.xsodata/PO_WORKLIST?$skip=0&$top={0}&$orderby={1},{2}%20asc&$select={1},{2}&$inlinecount=allpages&$filter={3}%20ne%20%27Closed%27%20and%20{3}%20ne%20%27Cancelled%27%20and%20{4}%20eq%20%27Initial%27%20and%20{5}%20ne%20%27Delivered%27%20and%20{6}%20ne%20%27Approved%27%20and%20{6}%20ne%20%27Rejected%27&$format=json";
       
       private string _urlEpm_RejectOnePO = @"poWorklistUpdate.xsjs?cmd=approval&{0}={1}&Action=Reject";
-      
-      private string _urlEpmBase; // root of service eg "http://<server>:8000/sap/hana/democontent/epm/services/"
+
+      /// <summary>
+      /// Root url of SHINE services eg "http://<server>:80<instance>/sap/hana/democontent/epm/services/"
+      /// </summary>
+      private string _urlEpmBase; 
 
       public VersionTranslator(HanaVersion hanaVersion, string host, string instance)
       {

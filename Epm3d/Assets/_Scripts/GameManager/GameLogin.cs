@@ -33,7 +33,7 @@ public class GameLogin : MonoBehaviour
    public GUISkin thisOrangeGUISkin;
    private Rect _rectWindowMain;
    private string _gameTitle = "HANA System Details";
-   private string _gameVersion = "0.30";
+   private string _gameVersion = "0.40";
 
    private const string _epmHostDefault = @"154.199.233.30";
    private const string _epmInstanceDefault = @"00";
@@ -366,7 +366,7 @@ public class GameLogin : MonoBehaviour
          ConnLog("Version " + hv.ToString() + " is supported");
          // Checks are now complete
          _connCheckState = ConnCheckState.CheckPassed;
-         ConnLog("Checks complete, ok to Start");
+         ConnLog("Checks complete, please press Start button!");
          _isItOkToPressPlayButton = true;
       }
       else
