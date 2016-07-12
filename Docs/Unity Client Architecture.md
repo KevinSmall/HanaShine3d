@@ -1,6 +1,6 @@
 # Unity Client Architecture
 
-## 1) Unity and C#
+## 1) Unity and C\#
 If you are new to either Unity or C#, and haven't already done so, at least do the "Interface and Essentials" and "Scripting" tutorials from here: http://unity3d.com/learn/tutorials.  You need to be able to examine the Unity Console output and debug a running Unity project in Visual Studio.  You need to know enough C# to understand how events and callbacks work - these are used throughout the code.
 
 ## 2) SimpleJSON
