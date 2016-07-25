@@ -1,6 +1,6 @@
 # Unity Client Architecture
 
-## 1) Unity and C Sharp
+## 1) Unity and C#
 If you are new to either Unity or C#, and haven't already done so, at least do the "Interface and Essentials" and "Scripting" tutorials from here: http://unity3d.com/learn/tutorials.  You need to be able to examine the Unity Console output and debug a running Unity project in Visual Studio.  You need to know enough C# to understand how events and callbacks work - these are used throughout the code.
 
 ## 2) SimpleJSON
@@ -14,7 +14,9 @@ The diagram above gives an overview of the relationship between the different ob
 
 Communication between objects is all event driven.  Objects raise events and other objects listen to events that interest them, and react as needed.  This design lends itself well to dealing with the asynchronous nature of HTTP/OData calls - an OData call can be made, and then an event raised when the data comes back.  Any object interested in seeing that data can listen for the event, and then read the data.
 
-All the interesting "PO box creation" stuff happens in the PoFactory class, which makes calls to the GameManager class to get the data it needs.  The key concepts come from understanding the relationship between these two objects.
+All the interesting "PO box creation" stuff happens in the PoFactory class, which makes calls to the GameManager class to get the data it needs.  The key concepts come from understanding the relationship between these two objects. This diagram shows the detail of a single request for data made by, in this example, the PO Factory:
+
+![](dataflowdetail.png?raw=true)
 
 ### 3.1) GameManager
 This is a singleton object, globally visible, and it provides the service of handling all HTTP/OData calls and provides nicely formatted data.  Other objects are "customers" of this service, and they use it like this:
