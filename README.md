@@ -23,3 +23,7 @@ All scripts are in the _Scripts folder
 PREFABS
 -------
 most prefabs are in the Prefabs folder
+
+DOCUMENTATION
+-------------
+More [documentation on class structure is here](https://github.com/KevinSmall/HanaShine3d/blob/master/Docs/Unity%20Client%20Architecture.md).
