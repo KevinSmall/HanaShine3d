@@ -3,8 +3,8 @@
 ## Table of Contents  
 * [Getting Started](#start)  
 * [Project Structure](#3-project-structure)  
-* [Highlighting POs](#comms)
-* [Creating POs](#createpos)
+* [Interacting with PO Boxes](#comms)
+* [Creating PO Boxes](#createpos)
 
 <a name="start"/>
 ## 1) Getting Started
@@ -119,7 +119,7 @@ if (Input.GetButtonUp("Reject"))
 The "GetButtonUp" for "Approve" as shown above uses standard Unity input mappings, so will react to mouse click or whatever keys were assigned.  To edit controls at runtime, hold down the Shift key (Windows) or the Alt key (Mac) when you start the executable and an additional dialog appears.  This allows you to specify screen resolution and graphics quality, and also to edit the controls.
 
 <a name="createpos"/>
-## 4) Creation of PO Boxes
+## 4) Creating PO Boxes
 The SHINE OData service provides PO line items.  The PO GameObject boxes that appear in the game are created one per PO header.  It is the CreateMassPos() method that takes the initial "mass PO list" and summarises it to PO header level, then arranges for a queue of further HTTP/OData calls to happen via method AskForPoData().  In AskForPoData() you can see this call:
 
 ```csharp
