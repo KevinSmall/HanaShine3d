@@ -1,12 +1,22 @@
 # Unity Client Architecture
 
-## 1) Unity and C#
+## Table of Contents  
+* [Getting Started](#start)  
+* [Project Structure](#3-project-structure)  
+* [Highlighting POs](#comms)
+* [Creating POs](#createpos)
+
+<a name="start"/>
+## 1) Getting Started
+
+### 1.1) Unity and C# #
 If you are new to either Unity or C#, and haven't already done so, at least do the "Interface and Essentials" and "Scripting" tutorials from here: http://unity3d.com/learn/tutorials.  You need to be able to examine the Unity Console output and debug a running Unity project in Visual Studio.  You need to know enough C# to understand how events and callbacks work - these are used throughout the code.
 
-## 2) SimpleJSON
-To understand SimpleJSON, see examples here: http://wiki.unity3d.com/index.php/SimpleJSON.
+### 1.2) SimpleJSON
+To understand SimpleJSON [see examples here](http://wiki.unity3d.com/index.php/SimpleJSON).
 
-## 3) Project structure
+<a name="3-project-structure"/>
+## 2) Project structure
 
 ![](archsimple590.png?raw=true)
 
@@ -18,16 +28,16 @@ All the interesting "PO box creation" stuff happens in the PoFactory class, whic
 
 ![](dataflowdetail.png?raw=true)
 
-### 3.1) GameManager
-This is a singleton object, globally visible, and it provides the service of handling all HTTP/OData calls and provides nicely formatted data.  Other objects are "customers" of this service, and they use it like this:
+### 2.1) GameManager
+The [GameManager](https://github.com/KevinSmall/HanaShine3d/blob/master/Epm3d/Assets/_Scripts/GameManager/GameManager.cs) is a singleton object, globally visible, and it provides the service of handling all HTTP/OData calls and provides nicely formatted data.  Other objects are "customers" of this service, and they use it like this:
 * First they call GetEpmData_* to request some specific data, eg get a mass PO list or a single PO.
 * The GameManager then makes an asynchronous call to get the data.  Once that data arrives, the GameManager raises the event On\*DataChanged to say "hey! data has arrived, you can come get it now".
 * Then the customer can call GetEpmResponse_* to get the actual data - and this is when the parsing happens.  Parsing is only done on demand.
 
 The GameManager is totally separate from any in-game Unity GameObjects, it touches nothing in-game.  It is up to the PoFactory and ChartFactory objects to make any changes to in-game objects.  To see how this happens, we can look at the process from the "customer" side and take a look at the PoFactory class.
 
-### 3.2) PoFactory
-The PoFactory is a customer of the GamaManager service described above.  The PoFactory operates in two phases.  In phase one it gets a list of PO items to create (just the PO item keys).  Then in phase two, it loops through that list and gets more details for each PO, enough information to actually create that PO item as a Unity GameObject.
+### 2.2) PoFactory
+The [PoFactory](https://github.com/KevinSmall/HanaShine3d/blob/master/Epm3d/Assets/_Scripts/Po/PoFactory.cs) is a customer of the GamaManager service described above.  The PoFactory operates in two phases.  In phase one it gets a list of PO items to create (just the PO item keys).  Then in phase two, it loops through that list and gets more details for each PO, enough information to actually create that PO item as a Unity GameObject.
 
 If you look inside the PoFactory class, you'll see this pattern:
 
@@ -72,7 +82,44 @@ This is kicked off towards the end of the CreateMassPos() method using the Unity
 Invoke("AskForPoData", PoCreateDelayInSeconds);
 ```
 
-## 4) Creation of POs and PO Items
+<a name="comms"/>
+## 3) Interacting with PO Boxes
+POs are created as described in the previous section.  Once created they move around on their own (controlled by the [PoMover](https://github.com/KevinSmall/HanaShine3d/blob/master/Epm3d/Assets/_Scripts/Po/PoMover.cs) script) and can be interacted with (highlighted) by the player. The interaction works as follows.  The main camera has a script attached to it ([Highlight_WhatIsLookedAt](https://github.com/KevinSmall/HanaShine3d/blob/master/Epm3d/Assets/_Scripts/System/Highlight_WhatIsLookedAt.cs)) that does raycasting.  If the player's gaze hits any object that has a [Highlight_IsHighlightable](https://github.com/KevinSmall/HanaShine3d/blob/master/Epm3d/Assets/_Scripts/System/Highlight_IsHighlightable.cs) script attached, then that object gets it's "IsHighlighted" property set to true.  This property change causes an event "OnHighlighted" to be raised by the Highlight_IsHighlightable script.  So far all this code is doing is the mechanics of an object being looked at (gazed at) and that object then receiving an event.
+
+What actually happens when that event is raised is handled in the [PoManager](https://github.com/KevinSmall/HanaShine3d/blob/master/Epm3d/Assets/_Scripts/Po/PoManager.cs) script.  Think of the PO manager as the brain of each PO (so each PO has its own PO manager).  It is the PO manager that decides what, if anything, to do when an event is received.  The PO manager reacts to receiving an OnHighlighted event like this:
+
+```csharp
+private void OnHighlighted(object sender, EventArgs e)
+{
+   if (_poMover != null)
+   {
+      _poMover.enabled = false;
+   }
+   // po gui script is a required cpt, dont need to check existence
+   _poGui.enabled = true;
+   }
+```
+
+This causes the PO box to stop moving (if it has a mover script attach) and causes it's detail GUI to appear.  The final part of PO box interaction, is the approval or rejection.  This is handled in the PoManager.Update() method:
+
+```csharp
+if (Input.GetButtonUp("Approve"))
+{
+   GameManager.Instance.GetEpmData_ApprovePO(PoBusinessDataWithItems.PurchaseOrderId);
+   _poManagerState = PoManagerState.BusyRequestingApprove
+}
+               
+if (Input.GetButtonUp("Reject"))
+{
+    GameManager.Instance.GetEpmData_RejectPO(PoBusinessDataWithItems.PurchaseOrderId);
+    _poManagerState = PoManagerState.BusyRequestingRejected;                  
+}
+```
+
+The "GetButtonUp" for "Approve" as shown above uses standard Unity input mappings, so will react to mouse click or whatever keys were assigned.  To edit controls at runtime, hold down the Shift key (Windows) or the Alt key (Mac) when you start the executable and an additional dialog appears.  This allows you to specify screen resolution and graphics quality, and also to edit the controls.
+
+<a name="createpos"/>
+## 4) Creation of PO Boxes
 The SHINE OData service provides PO line items.  The PO GameObject boxes that appear in the game are created one per PO header.  It is the CreateMassPos() method that takes the initial "mass PO list" and summarises it to PO header level, then arranges for a queue of further HTTP/OData calls to happen via method AskForPoData().  In AskForPoData() you can see this call:
 
 ```csharp
@@ -83,12 +130,11 @@ It is only when the event "GameManager.Instance.OnSinglePODataWithItemsChanged" 
 
 ```csharp
 private void OnSinglePODataWithItemsChanged(object sender, EventArgs e)
-   {
-      //print("PoFactory has received event OnSinglePODataWithItemsChanged");
-      CreatePoWithItems();
-   }
+{
+    //print("PoFactory has received event OnSinglePODataWithItemsChanged");
+    CreatePoWithItems();
+}
 ```
-
 
 ```csharp
 private void CreatePoWithItems()
